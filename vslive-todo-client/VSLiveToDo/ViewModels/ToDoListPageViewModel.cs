@@ -18,7 +18,20 @@ namespace VSLiveToDo.ViewModels
 
             navigation = nav;
 
-            RefreshList();
+            InitialRefreshList();
+        }
+
+        bool isRefreshing;
+        public bool IsRefreshing
+        {
+            get
+            {
+                return isRefreshing;
+            }
+            set
+            {
+                SetProperty(ref isRefreshing, value, nameof(IsRefreshing));
+            }
         }
 
         ObservableCollection<ToDoItem> items = new ObservableCollection<ToDoItem>();
@@ -38,6 +51,12 @@ namespace VSLiveToDo.ViewModels
             set
             {
                 SetProperty(ref selectedItem, value, nameof(SelectedItem));
+
+                if (selectedItem != null)
+                {
+                    navigation.PushAsync(new ToDoDetailPage(selectedItem));
+                    SelectedItem = null;
+                }
             }
         }
 
@@ -63,9 +82,12 @@ namespace VSLiveToDo.ViewModels
                                                               }
                                                           }));
 
-        async Task RefreshList()
+
+        async Task InitialRefreshList()
         {
             await ExecuteRefreshingCommand();
+
+            MessagingCenter.Subscribe<ToDoDetailPageViewModel>(this, "refresh_list", async (obj) => await ExecuteRefreshingCommand());
         }
 
         async Task ExecuteRefreshingCommand(bool pullFromCloud = false)
@@ -80,7 +102,11 @@ namespace VSLiveToDo.ViewModels
                 var service = new ZumoService();
 
                 if (pullFromCloud)
+                {
+                    IsRefreshing = true;
                     await service.SyncOfflineCache();
+                    IsRefreshing = false;
+                }
 
                 var results = await service.GetAllToDoItems();
 
