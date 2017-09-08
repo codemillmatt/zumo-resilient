@@ -1,5 +1,30 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="VSLiveToDo.ToDoDetailPage">
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="VSLiveToDo.ToDoDetailPage"
+    Title="{Binding Title}">
 	<ContentPage.Content>
-	</ContentPage.Content>
+        <Grid Padding="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="200" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1.5*" />
+            </Grid.ColumnDefinitions>
+            <Label Text="Task Name:" Grid.Row="0" Grid.Column="0" />
+            <Entry Grid.Column="1" Grid.Row="0" Text="{Binding Item.Text}" />
+            <Label Text="Descripton:" Grid.Row="1" Grid.Column="0" />
+            <Editor Grid.Row="1" Grid.Column="1" BackgroundColor="Aqua" Text="{Binding Item.Notes}" />
+            <Label Text="Completed:" Grid.Row="2" Grid.Column="0" />
+            <Switch Grid.Row="2" Grid.Column="1" IsToggled="{Binding Item.Complete}" />
+        </Grid>
+    </ContentPage.Content>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
+        <ToolbarItem Text="Cancel" Command="{Binding CancelCommand}"/>
+    </ContentPage.ToolbarItems>
 </ContentPage>

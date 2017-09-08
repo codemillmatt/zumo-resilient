@@ -8,13 +8,18 @@
             </Grid.RowDefinitions>
             <ListView ItemsSource="{Binding Items}" 
                 Grid.Row="0"
-                IsRefreshing="{Binding IsBusy}"
-                IsPullToRefreshEnabled="true" RefreshCommand="{Binding RefreshCommand}" SelectedItem="{Binding SelectedItem}">
+                IsRefreshing="{Binding IsRefreshing}"
+                IsPullToRefreshEnabled="true" 
+                RefreshCommand="{Binding RefreshCommand}" 
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell Text="{Binding Text}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <ListView.Footer>
+                   
+                </ListView.Footer>
             </ListView>
             <Button Text="Add New" Grid.Row="1" BackgroundColor="Blue" 
                  TextColor="White" Command="{Binding AddNewCommand}" />

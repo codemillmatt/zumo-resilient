@@ -52,6 +52,7 @@
     </Compile>
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Services\Settings.cs" />
+    <Compile Include="ViewModels\ToDoDetailPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

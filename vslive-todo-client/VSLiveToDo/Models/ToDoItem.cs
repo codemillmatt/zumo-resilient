@@ -8,5 +8,6 @@ namespace VSLiveToDo.Models
         public bool Complete { get; set; }
 
         public string Id { get; set; }
+        public byte[] Version { get; set; }
     }
 }
