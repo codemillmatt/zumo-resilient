@@ -6,6 +6,8 @@ using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using VSLiveToDo.Models;
 using Newtonsoft.Json.Linq;
+using Xamarin.Forms;
+using VSLiveToDo.Abstractions;
 
 namespace VSLiveToDo.Services
 {
@@ -149,6 +151,13 @@ namespace VSLiveToDo.Services
             var table = client.GetSyncTable<ToDoItem>();
 
             await table.UpdateAsync(item);
+        }
+
+        public async Task RegisterForPushNotifications()
+        {
+            var platform = DependencyService.Get<IPlatformProvider>();
+
+            await platform.RegisterForPushNotifications(client);
         }
     }
 }

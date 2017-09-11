@@ -19,6 +19,12 @@ namespace VSLiveToDo.ViewModels
             navigation = nav;
 
             InitialRefreshList();
+
+            var service = new ZumoService();
+            Task.Run(async () =>
+            {
+                await service.RegisterForPushNotifications();
+            });
         }
 
         bool isRefreshing;
