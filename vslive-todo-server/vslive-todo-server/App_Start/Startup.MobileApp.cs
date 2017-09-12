@@ -19,7 +19,9 @@ namespace vslive_todo_server
             HttpConfiguration config = new HttpConfiguration();
 
             new MobileAppConfiguration()
-                .UseDefaultConfiguration()
+               // .UseDefaultConfiguration()
+               .AddTablesWithEntityFramework()
+               .MapApiControllers()
                 .ApplyTo(config);
 
             // Use Entity Framework Code First to create database tables based on your DbContext
