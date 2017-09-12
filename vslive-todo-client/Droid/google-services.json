@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "832861461452",
+    "firebase_url": "https://vslive-to-do.firebaseio.com",
+    "project_id": "vslive-to-do",
+    "storage_bucket": "vslive-to-do.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832861461452:android:58109985541eace6",
+        "android_client_info": {
+          "package_name": "com.microsoft.VSLiveToDo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832861461452-vraqbh26ds63jtcscma2r4b5cpknubbh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOU4SkRnMy-U9MiV4HS6dLi6SV328WL60"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
