@@ -25,6 +25,11 @@ namespace VSLiveToDo.ViewModels
             {
                 await service.RegisterForPushNotifications();
             });
+
+            MessagingCenter.Subscribe<PushToSync>(this, "ItemsChanged", async (obj) =>
+            {
+                await ExecuteRefreshingCommand(true);
+            });
         }
 
         bool isRefreshing;

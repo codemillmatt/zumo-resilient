@@ -41,6 +41,7 @@ namespace VSLiveToDo.Droid
             var op = intent.Extras.GetString("op");
             if (op != null)
             {
+                // This is for the "silent" messages
                 var syncMessage = new PushToSync()
                 {
                     Table = intent.Extras.GetString("table"),
@@ -50,6 +51,7 @@ namespace VSLiveToDo.Droid
             }
             else
             {
+                // This is for the "regular" messages
                 var message = intent.Extras.GetString("message") ?? "Unknown Message";
                 var picture = intent.Extras.GetString("picture");
                 CreateNotification("TaskList", message, picture);

@@ -39,3 +39,5 @@ namespace VSLiveToDo.Droid
 
     }
 }
+
+// Notes taken from https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/
