@@ -69,7 +69,8 @@ namespace VSLiveToDo.Services
             }
             finally
             {
-                Settings.HasSyncStarted = false;
+                if (!throwException)
+                    Settings.HasSyncStarted = false;
             }
 
         }

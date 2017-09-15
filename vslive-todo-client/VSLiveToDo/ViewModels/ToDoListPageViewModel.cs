@@ -127,10 +127,6 @@ namespace VSLiveToDo.ViewModels
                     Items.Add(item);
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"The error was: {ex.Message}");
-            }
             finally
             {
                 IsBusy = false;
