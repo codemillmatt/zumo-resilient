@@ -120,10 +120,10 @@ namespace VSLiveToDo.Services
                 }
 
                 await App.Current.MainPage.DisplayAlert("Conflict", $"We detected a conflict and chose the {winnerName}.", "OK");
-
-                // This is so we can get a pull of the data back out
-                await SyncOfflineCache();
             }
+
+            // This is so we can get a pull of the data back out
+            await SyncOfflineCache();
         }
 
         public async Task<List<ToDoItem>> GetAllToDoItems()
