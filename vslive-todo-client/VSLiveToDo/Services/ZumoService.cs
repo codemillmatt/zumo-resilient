@@ -165,6 +165,15 @@ namespace VSLiveToDo.Services
             await table.DeleteAsync(item);
         }
 
+        public async Task PurgeAll()
+        {
+            await this.Initializer();
+
+            var query = table.CreateQuery();
+
+            await table.PurgeAsync("todo-incremental", query, new System.Threading.CancellationToken());
+        }
+
         public async Task RegisterForPushNotifications()
         {
             var platform = DependencyService.Get<IPlatformProvider>();
