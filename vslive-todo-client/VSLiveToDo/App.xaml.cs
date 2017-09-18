@@ -1,6 +1,8 @@
 ﻿using Xamarin.Forms;
 using VSLiveToDo.Services;
+using Xamarin.Forms.Xaml;
 
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace VSLiveToDo
 {
     public partial class App : Application
