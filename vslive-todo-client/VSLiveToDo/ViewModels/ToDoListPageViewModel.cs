@@ -45,8 +45,8 @@ namespace VSLiveToDo.ViewModels
             }
         }
 
-        ObservableCollection<ToDoItem> items = new ObservableCollection<ToDoItem>();
-        public ObservableCollection<ToDoItem> Items
+        ObservableRangeCollection<ToDoItem> items = new ObservableRangeCollection<ToDoItem>();
+        public ObservableRangeCollection<ToDoItem> Items
         {
             get { return items; }
             set { SetProperty(ref items, value, nameof(Items)); }
@@ -93,6 +93,15 @@ namespace VSLiveToDo.ViewModels
                                                               }
                                                           }));
 
+        Command<ToDoItem> deleteCommand;
+        public Command<ToDoItem> DeleteCommand => deleteCommand ?? (deleteCommand =
+                                                          new Command<ToDoItem>(async (todo) =>
+                                                          {
+                                                              var zumo = new ZumoService();
+                                                              await zumo.DeleteToDo(todo);
+
+                                                              Items.Remove(todo);
+                                                          }));
 
         async Task InitialRefreshList()
         {
@@ -126,10 +135,6 @@ namespace VSLiveToDo.ViewModels
                 {
                     Items.Add(item);
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"The error was: {ex.Message}");
             }
             finally
             {

@@ -56,6 +56,7 @@
     <Compile Include="Abstractions\DeviceInstallation.cs" />
     <Compile Include="Abstractions\IPlatformProvider.cs" />
     <Compile Include="Models\PushToSync.cs" />
+    <Compile Include="Helpers\CompleteValueConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Net.Http.Extensions">
