@@ -13,5 +13,13 @@ namespace VSLiveToDo
 
             BindingContext = new ViewModels.ToDoListPageViewModel(this.Navigation);
         }
+
+        public void Delete_Clicked(object sender, EventArgs e)
+        {
+            var mi = (MenuItem)sender;
+            var vm = (ViewModels.ToDoListPageViewModel)BindingContext;
+
+            vm.DeleteCommand.Execute(mi.CommandParameter);
+        }
     }
 }

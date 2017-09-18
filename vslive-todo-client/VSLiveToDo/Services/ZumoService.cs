@@ -14,6 +14,7 @@ namespace VSLiveToDo.Services
     public class ZumoService
     {
         MobileServiceClient client;
+        IMobileServiceSyncTable<ToDoItem> table;
 
         public ZumoService()
         {
@@ -30,6 +31,7 @@ namespace VSLiveToDo.Services
             store.DefineTable<ToDoItem>();
 
             await client.SyncContext.InitializeAsync(store);
+            table = client.GetSyncTable<ToDoItem>();
         }
 
         public async Task<bool> HasPendingOperations()
@@ -53,7 +55,7 @@ namespace VSLiveToDo.Services
 
                 await client.SyncContext.PushAsync();
 
-                var table = client.GetSyncTable<ToDoItem>();
+                //var table = client.GetSyncTable<ToDoItem>();
                 await table.PullAsync("todo-incremental", table.CreateQuery());
             }
             catch (MobileServicePreconditionFailedException<ToDoItem> precondEx)
@@ -131,7 +133,7 @@ namespace VSLiveToDo.Services
         {
             await this.Initializer();
 
-            var table = client.GetSyncTable<ToDoItem>();
+            //var table = client.GetSyncTable<ToDoItem>();
 
             return await table.ToListAsync();
         }
@@ -140,7 +142,7 @@ namespace VSLiveToDo.Services
         {
             await this.Initializer();
 
-            var table = client.GetSyncTable<ToDoItem>();
+            //var table = client.GetSyncTable<ToDoItem>();
 
             await table.InsertAsync(item);
         }
@@ -149,9 +151,18 @@ namespace VSLiveToDo.Services
         {
             await this.Initializer();
 
-            var table = client.GetSyncTable<ToDoItem>();
+            //var table = client.GetSyncTable<ToDoItem>();
 
             await table.UpdateAsync(item);
+        }
+
+        public async Task DeleteToDo(ToDoItem item)
+        {
+            await this.Initializer();
+
+            //var table = client.GetSyncTable<ToDoItem>();
+
+            await table.DeleteAsync(item);
         }
 
         public async Task RegisterForPushNotifications()
