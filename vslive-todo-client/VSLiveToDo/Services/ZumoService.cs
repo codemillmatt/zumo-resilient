@@ -8,6 +8,7 @@ using VSLiveToDo.Models;
 using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 using VSLiveToDo.Abstractions;
+using System.Diagnostics;
 
 namespace VSLiveToDo.Services
 {
@@ -61,6 +62,7 @@ namespace VSLiveToDo.Services
             catch (MobileServicePreconditionFailedException<ToDoItem> precondEx)
             {
                 // happens for online only
+                Debug.WriteLine(precondEx.ToString());
             }
             catch (MobileServicePushFailedException ex)
             {
