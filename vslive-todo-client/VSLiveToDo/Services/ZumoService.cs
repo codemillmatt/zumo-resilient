@@ -41,21 +41,14 @@ namespace VSLiveToDo.Services
             return client.SyncContext.PendingOperations > 0;
         }
 
-        public async Task SyncOfflineCache(bool throwException = false)
+        public async Task SyncOfflineCache()
         {
             try
             {
-                Settings.HasSyncStarted = true;
-
-                // Only here to simulate something bad happening :)
-                if (throwException)
-                    throw new Exception();
-
                 await Initializer();
 
                 await client.SyncContext.PushAsync();
 
-                //var table = client.GetSyncTable<ToDoItem>();
                 await table.PullAsync("todo-incremental", table.CreateQuery());
             }
             catch (MobileServicePreconditionFailedException<ToDoItem> precondEx)
@@ -69,12 +62,6 @@ namespace VSLiveToDo.Services
                     await ResolveConflicts(ex.PushResult);
                 }
             }
-            finally
-            {
-                if (!throwException)
-                    Settings.HasSyncStarted = false;
-            }
-
         }
 
         async Task ResolveConflicts(MobileServicePushCompletionResult result)
@@ -122,7 +109,7 @@ namespace VSLiveToDo.Services
                     winnerName = "local";
                 }
 
-                await App.Current.MainPage.DisplayAlert("Conflict", $"We detected a conflict and chose the {winnerName}.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Conflict", $"We detected a conflict and chose the {winnerName}.", "OK");
             }
 
             // This is so we can get a pull of the data back out
@@ -133,16 +120,12 @@ namespace VSLiveToDo.Services
         {
             await this.Initializer();
 
-            //var table = client.GetSyncTable<ToDoItem>();
-
             return await table.ToListAsync();
         }
 
         public async Task CreateToDo(ToDoItem item)
         {
             await this.Initializer();
-
-            //var table = client.GetSyncTable<ToDoItem>();
 
             await table.InsertAsync(item);
         }
@@ -151,8 +134,6 @@ namespace VSLiveToDo.Services
         {
             await this.Initializer();
 
-            //var table = client.GetSyncTable<ToDoItem>();
-
             await table.UpdateAsync(item);
         }
 
@@ -160,18 +141,7 @@ namespace VSLiveToDo.Services
         {
             await this.Initializer();
 
-            //var table = client.GetSyncTable<ToDoItem>();
-
             await table.DeleteAsync(item);
-        }
-
-        public async Task PurgeAll()
-        {
-            await this.Initializer();
-
-            var query = table.CreateQuery();
-
-            await table.PurgeAsync("todo-incremental", query, new System.Threading.CancellationToken());
         }
 
         public async Task RegisterForPushNotifications()

@@ -103,14 +103,6 @@ namespace VSLiveToDo.ViewModels
                                                               Items.Remove(todo);
                                                           }));
 
-        Command purgeCommand;
-        public Command PurgeCommand => purgeCommand ?? (purgeCommand =
-                                                        new Command(async () =>
-                                                        {
-                                                            var zumo = new ZumoService();
-                                                            await zumo.PurgeAll();
-                                                        }));
-
         async Task InitialRefreshList()
         {
             await ExecuteRefreshingCommand();

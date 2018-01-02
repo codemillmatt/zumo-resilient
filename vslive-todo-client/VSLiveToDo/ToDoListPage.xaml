@@ -37,7 +37,4 @@
         </Grid>
     </ContentPage.Content>
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Purge" Command="{Binding PurgeCommand}" />
-    </ContentPage.ToolbarItems>
 </ContentPage>
