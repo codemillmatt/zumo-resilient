@@ -13,6 +13,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <ListView ItemsSource="{Binding Items}" 
                 Grid.Row="0"
@@ -34,6 +35,8 @@
             </ListView>
             <Button Text="Add New" Grid.Row="1" BackgroundColor="Blue" 
                  TextColor="White" Command="{Binding AddNewCommand}" />
+            <Button Text="Mass Insert" Grid.Row="2" BackgroundColor="Lime"
+                TextColor="Black" Command="{Binding MassInsertCommand}" />
         </Grid>
     </ContentPage.Content>
 

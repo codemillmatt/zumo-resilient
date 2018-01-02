@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
@@ -9,6 +10,9 @@ using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 using VSLiveToDo.Abstractions;
 
+using Plugin.Connectivity;
+using Plugin.Connectivity.Abstractions;
+
 namespace VSLiveToDo.Services
 {
     public class ZumoService
@@ -16,9 +20,12 @@ namespace VSLiveToDo.Services
         MobileServiceClient client;
         IMobileServiceSyncTable<ToDoItem> table;
 
+        bool haveWiFi;
         public ZumoService()
         {
             client = new MobileServiceClient("https://vslive-chicago-zumo.azurewebsites.net");
+
+            haveWiFi = CrossConnectivity.Current.ConnectionTypes.Any(ct => ct == ConnectionType.WiFi);
         }
 
         async Task Initializer()
@@ -47,9 +54,15 @@ namespace VSLiveToDo.Services
             {
                 await Initializer();
 
-                await client.SyncContext.PushAsync();
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    if (client.SyncContext.PendingOperations < 8 || haveWiFi)
+                    {
+                        await client.SyncContext.PushAsync();
 
-                await table.PullAsync("todo-incremental", table.CreateQuery());
+                        await table.PullAsync("todo-incremental", table.CreateQuery());
+                    }
+                }
             }
             catch (MobileServicePreconditionFailedException<ToDoItem> precondEx)
             {
@@ -142,6 +155,18 @@ namespace VSLiveToDo.Services
             await this.Initializer();
 
             await table.DeleteAsync(item);
+        }
+
+        public async Task PerformMassInsert()
+        {
+            await this.Initializer();
+
+            for (int i = 0; i < 10; i++)
+            {
+                var item = new ToDoItem { Complete = false, Text = $"Mass insert #: {i}", Notes = "That's a lot!" };
+
+                await table.InsertAsync(item);
+            }
         }
 
         public async Task RegisterForPushNotifications()

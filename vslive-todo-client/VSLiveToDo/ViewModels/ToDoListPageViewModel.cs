@@ -103,6 +103,24 @@ namespace VSLiveToDo.ViewModels
                                                               Items.Remove(todo);
                                                           }));
 
+        Command massInsertCmd;
+        Command MassInsertCommand => massInsertCmd ?? (massInsertCmd =
+                                                       new Command(async () =>
+                                                       {
+                                                           if (IsBusy)
+                                                               return;
+
+                                                           try
+                                                           {
+                                                               var service = new ZumoService();
+                                                               await service.PerformMassInsert();
+                                                           }
+                                                           finally
+                                                           {
+                                                               IsBusy = false;
+                                                           }
+                                                       }));
+
         async Task InitialRefreshList()
         {
             await ExecuteRefreshingCommand();
