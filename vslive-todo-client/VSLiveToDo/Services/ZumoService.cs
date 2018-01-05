@@ -59,7 +59,6 @@ namespace VSLiveToDo.Services
                     if (client.SyncContext.PendingOperations < 8 || haveWiFi)
                     {
                         await client.SyncContext.PushAsync();
-
                         await table.PullAsync("todo-incremental", table.CreateQuery());
                     }
                 }
@@ -87,7 +86,7 @@ namespace VSLiveToDo.Services
                 var server = prError.Result.ToObject<ToDoItem>();
                 var local = prError.Item.ToObject<ToDoItem>();
 
-                // First take the complted = always favor the server
+                // First take the completed = always favor the server
                 if (server.Complete)
                 {
                     serverWins = true;
@@ -115,7 +114,7 @@ namespace VSLiveToDo.Services
                 }
                 else
                 {
-                    // VERY IMPORTANGT!!
+                    // VERY IMPORTANT!!
                     local.Version = server.Version;
                     await prError.UpdateOperationAsync(JObject.FromObject(local));
 
@@ -161,7 +160,7 @@ namespace VSLiveToDo.Services
         {
             await this.Initializer();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
             {
                 var item = new ToDoItem { Complete = false, Text = $"Mass insert #: {i}", Notes = "That's a lot!" };
 
