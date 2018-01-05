@@ -54,14 +54,8 @@ namespace VSLiveToDo.Services
             {
                 await Initializer();
 
-                if (CrossConnectivity.Current.IsConnected)
-                {
-                    if (client.SyncContext.PendingOperations < 8 || haveWiFi)
-                    {
-                        await client.SyncContext.PushAsync();
-                        await table.PullAsync("todo-incremental", table.CreateQuery());
-                    }
-                }
+                await client.SyncContext.PushAsync();
+                await table.PullAsync("todo-incremental", table.CreateQuery());
             }
             catch (MobileServicePreconditionFailedException<ToDoItem> precondEx)
             {
