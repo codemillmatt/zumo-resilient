@@ -104,7 +104,7 @@ namespace VSLiveToDo.ViewModels
                                                           }));
 
         Command massInsertCmd;
-        Command MassInsertCommand => massInsertCmd ?? (massInsertCmd =
+        public Command MassInsertCommand => massInsertCmd ?? (massInsertCmd =
                                                        new Command(async () =>
                                                        {
                                                            if (IsBusy)
@@ -113,7 +113,9 @@ namespace VSLiveToDo.ViewModels
                                                            try
                                                            {
                                                                var service = new ZumoService();
-                                                               await service.PerformMassInsert();
+                                                               var newItems = await service.PerformMassInsert();
+
+                                                               Items.AddRange(newItems, System.Collections.Specialized.NotifyCollectionChangedAction.Add);
                                                            }
                                                            finally
                                                            {

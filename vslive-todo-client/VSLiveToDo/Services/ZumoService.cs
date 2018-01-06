@@ -54,8 +54,14 @@ namespace VSLiveToDo.Services
             {
                 await Initializer();
 
-                await client.SyncContext.PushAsync();
-                await table.PullAsync("todo-incremental", table.CreateQuery());
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    if (client.SyncContext.PendingOperations <= 8 || haveWiFi)
+                    {
+                        await client.SyncContext.PushAsync();
+                        await table.PullAsync("todo-incremental", table.CreateQuery());
+                    }
+                }
             }
             catch (MobileServicePreconditionFailedException<ToDoItem> precondEx)
             {
@@ -150,16 +156,20 @@ namespace VSLiveToDo.Services
             await table.DeleteAsync(item);
         }
 
-        public async Task PerformMassInsert()
+        public async Task<List<ToDoItem>> PerformMassInsert()
         {
             await this.Initializer();
 
+            var theItems = new List<ToDoItem>();
             for (int i = 0; i < 20; i++)
             {
                 var item = new ToDoItem { Complete = false, Text = $"Mass insert #: {i}", Notes = "That's a lot!" };
+                theItems.Add(item);
 
                 await table.InsertAsync(item);
             }
+
+            return theItems;
         }
 
         public async Task RegisterForPushNotifications()
