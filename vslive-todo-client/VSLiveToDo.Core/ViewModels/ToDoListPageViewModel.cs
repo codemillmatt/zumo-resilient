@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace VSLiveToDo.Core
 {
-    public class ToDoListPageViewModel// : BaseViewModel
+    public class ToDoListPageViewModel : BaseViewModel
     {
         INavigation navigation;
 
@@ -39,8 +39,7 @@ namespace VSLiveToDo.Core
             }
             set
             {
-                isRefreshing = value;
-                //SetProperty(ref isRefreshing, value, nameof(IsRefreshing));
+                SetProperty(ref isRefreshing, value, nameof(IsRefreshing));
             }
         }
 
@@ -50,8 +49,7 @@ namespace VSLiveToDo.Core
             get { return items; }
             set
             {
-                items = value;
-                //SetProperty(ref items, value, nameof(Items)); 
+                SetProperty(ref items, value, nameof(Items));
             }
         }
 
@@ -64,8 +62,7 @@ namespace VSLiveToDo.Core
             }
             set
             {
-                //SetProperty(ref selectedItem, value, nameof(SelectedItem));
-                selectedItem = value;
+                SetProperty(ref selectedItem, value, nameof(SelectedItem));
 
                 if (selectedItem != null)
                 {
