@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
-namespace VSLiveToDo
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
+namespace VSLiveToDo.Core
 {
     public partial class ToDoListPage : ContentPage
     {
@@ -11,15 +15,16 @@ namespace VSLiveToDo
         {
             InitializeComponent();
 
+            Title = "VS Live";
+            On<Xamarin.Forms.PlatformConfiguration.iOS>().SetUseSafeArea(true);
 
-
-            BindingContext = new ViewModels.ToDoListPageViewModel(this.Navigation);
+            BindingContext = new ToDoListPageViewModel(this.Navigation);
         }
 
         public void Delete_Clicked(object sender, EventArgs e)
         {
             var mi = (MenuItem)sender;
-            var vm = (ViewModels.ToDoListPageViewModel)BindingContext;
+            var vm = (ToDoListPageViewModel)BindingContext;
 
             vm.DeleteCommand.Execute(mi.CommandParameter);
         }

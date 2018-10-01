@@ -4,12 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
-using VSLiveToDo.Models;
 using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
-using VSLiveToDo.Abstractions;
 
-namespace VSLiveToDo.Services
+namespace VSLiveToDo.Core
 {
     public class ZumoService
     {
@@ -177,9 +175,11 @@ namespace VSLiveToDo.Services
 
         public async Task RegisterForPushNotifications()
         {
-            var platform = DependencyService.Get<IPlatformProvider>();
+            //var platform = DependencyService.Get<IPlatformProvider>();
 
-            await platform.RegisterForPushNotifications(client);
+            //await platform.RegisterForPushNotifications(client);
+
+            await Task.CompletedTask;
         }
     }
 }
