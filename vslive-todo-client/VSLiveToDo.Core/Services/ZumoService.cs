@@ -16,7 +16,6 @@ namespace VSLiveToDo.Core
 
         public ZumoService()
         {
-            //client = new MobileServiceClient("https://vslive-chicago-zumo.azurewebsites.net");
             client = new MobileServiceClient("https://zumo-resilient.azurewebsites.net");
         }
 
@@ -132,16 +131,12 @@ namespace VSLiveToDo.Core
         {
             await this.Initializer();
 
-            //var table = client.GetSyncTable<ToDoItem>();
-
             return await table.ToListAsync();
         }
 
         public async Task CreateToDo(ToDoItem item)
         {
             await this.Initializer();
-
-            //var table = client.GetSyncTable<ToDoItem>();
 
             await table.InsertAsync(item);
         }
@@ -150,16 +145,12 @@ namespace VSLiveToDo.Core
         {
             await this.Initializer();
 
-            //var table = client.GetSyncTable<ToDoItem>();
-
             await table.UpdateAsync(item);
         }
 
         public async Task DeleteToDo(ToDoItem item)
         {
             await this.Initializer();
-
-            //var table = client.GetSyncTable<ToDoItem>();
 
             await table.DeleteAsync(item);
         }
