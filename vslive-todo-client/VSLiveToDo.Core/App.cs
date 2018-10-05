@@ -21,29 +21,31 @@ namespace VSLiveToDo.Core
         {
             if (!AppCenter.Configured)
             {
-                Push.PushNotificationReceived += (sender, e) =>
+                Push.PushNotificationReceived += async (sender, e) =>
                 {
+                    var zumoService = new ZumoService();
+                    await zumoService.SyncOfflineCache();
 
                     // Add the notification message and title to the message
-                    var summary = $"Push notification received:" +
-                                        $"\n\tNotification title: {e.Title}" +
-                                        $"\n\tMessage: {e.Message}";
+                    //var summary = $"Push notification received:" +
+                    //                    $"\n\tNotification title: {e.Title}" +
+                    //                    $"\n\tMessage: {e.Message}";
 
-                    // If there is custom data associated with the notification,
-                    // print the entries
-                    if (e.CustomData != null)
-                    {
-                        summary += "\n\tCustom data:\n";
-                        foreach (var key in e.CustomData.Keys)
-                        {
-                            summary += $"\t\t{key} : {e.CustomData[key]}\n";
+                    //// If there is custom data associated with the notification,
+                    //// print the entries
+                    //if (e.CustomData != null)
+                    //{
+                    //    summary += "\n\tCustom data:\n";
+                    //    foreach (var key in e.CustomData.Keys)
+                    //    {
+                    //        summary += $"\t\t{key} : {e.CustomData[key]}\n";
 
-                            Analytics.TrackEvent("Push", new Dictionary<string, string> { { "push-key", $"{key}" } });
-                        }
-                    }
+                    //        Analytics.TrackEvent("Push", new Dictionary<string, string> { { "push-key", $"{key}" } });
+                    //    }
+                    //}
 
-                    // Send the notification summary to debug output
-                    System.Diagnostics.Debug.WriteLine(summary);
+                    //// Send the notification summary to debug output
+                    //System.Diagnostics.Debug.WriteLine(summary);
                 };
             }
 
