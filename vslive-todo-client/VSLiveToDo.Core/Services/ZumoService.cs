@@ -6,6 +6,7 @@ using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
+using Plugin.Connectivity;
 
 namespace VSLiveToDo.Core
 {
@@ -32,15 +33,16 @@ namespace VSLiveToDo.Core
             table = client.GetSyncTable<ToDoItem>();
         }
 
-        public async Task<bool> HasPendingOperations()
-        {
-            await Initializer();
-
-            return client.SyncContext.PendingOperations > 0;
-        }
-
         public async Task SyncOfflineCache(bool throwException = false)
         {
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                await Application.Current.MainPage.DisplayAlert("No Connection",
+                        "Cannot connect to network.", "OK");
+
+                return;
+            }
+
             try
             {
                 Settings.HasSyncStarted = true;
@@ -53,7 +55,6 @@ namespace VSLiveToDo.Core
 
                 await client.SyncContext.PushAsync();
 
-                //var table = client.GetSyncTable<ToDoItem>();
                 await table.PullAsync("todo-incremental", table.CreateQuery());
             }
             catch (MobileServicePreconditionFailedException<ToDoItem> precondEx)
