@@ -7,7 +7,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
-using VSLiveToDo.Abstractions;
+using VSLiveToDo.Core;
 
 
 //[assembly: Permission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
@@ -31,13 +31,8 @@ namespace VSLiveToDo.Droid
 
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 
-            var provider = Xamarin.Forms.DependencyService.Get<IPlatformProvider>() as DroidProvider;
-            provider.Init(this);
-
             LoadApplication(new App());
         }
 
     }
 }
-
-// Notes taken from https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/

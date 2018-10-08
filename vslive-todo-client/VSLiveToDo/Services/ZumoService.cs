@@ -18,7 +18,7 @@ namespace VSLiveToDo.Services
 
         public ZumoService()
         {
-            client = new MobileServiceClient("https://vslive-chicago-zumo.azurewebsites.net");
+            client = new MobileServiceClient("https://zumo-resilient.azurewebsites.net");
         }
 
         async Task Initializer()

@@ -11,6 +11,8 @@ namespace VSLiveToDo
         {
             InitializeComponent();
 
+
+
             BindingContext = new ViewModels.ToDoListPageViewModel(this.Navigation);
         }
 

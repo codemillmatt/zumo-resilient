@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="VSLiveToDo.Core.ToDoDetailPage"
+    Title="{Binding Title}">
+    <ContentPage.Content>       
+        <TableView Intent="Form" HasUnevenRows="true">
+            <TableSection Title="Task Details">
+                <EntryCell Label="Task Name" Text="{Binding Item.Text}" />                
+                <SwitchCell Text="Completed" On="{Binding Item.Complete}" />
+            </TableSection>
+            <TableSection Title="Notes">
+                <ViewCell>
+                   <Editor Text="{Binding Item.Notes}" HeightRequest="100" Margin="10,0" /> 
+                </ViewCell>
+            </TableSection>
+        </TableView>        
+    </ContentPage.Content>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
+        <ToolbarItem Text="Cancel" Command="{Binding CancelCommand}"/>
+    </ContentPage.ToolbarItems>
+</ContentPage>
