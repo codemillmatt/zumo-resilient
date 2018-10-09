@@ -16,7 +16,12 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ListView ItemsSource="{Binding Items}" 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+                
+            <ListView ItemsSource="{Binding Items}" Grid.ColumnSpan="2" 
                 Grid.Row="0"
                 IsRefreshing="{Binding IsRefreshing}"
                 IsPullToRefreshEnabled="true" 
@@ -35,7 +40,8 @@
                 </ListView.Footer>
             </ListView>
             <Button Text="Add New" Grid.Row="1" BackgroundColor="Blue" 
-                 TextColor="White" Command="{Binding AddNewCommand}" />
+                 TextColor="White" Command="{Binding AddNewCommand}" Grid.Column="0" />
+            <Button Text="Local Refresh" Grid.Row="1" Grid.Column="1" BackgroundColor="Green" TextColor="White" Command="{Binding LocalRefreshCommand}" />
         </Grid>
     </ContentPage.Content>
     <ContentPage.ToolbarItems>

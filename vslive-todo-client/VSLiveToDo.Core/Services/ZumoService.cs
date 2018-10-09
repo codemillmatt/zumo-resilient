@@ -7,6 +7,8 @@ using Microsoft.WindowsAzure.MobileServices.Sync;
 using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 using Plugin.Connectivity;
+using System.Linq;
+using Plugin.Connectivity.Abstractions;
 
 namespace VSLiveToDo.Core
 {
@@ -33,7 +35,7 @@ namespace VSLiveToDo.Core
             table = client.GetSyncTable<ToDoItem>();
         }
 
-        public async Task SyncOfflineCache(bool throwException = false)
+        public async Task SyncOfflineCache()
         {
             if (!CrossConnectivity.Current.IsConnected)
             {
@@ -47,13 +49,19 @@ namespace VSLiveToDo.Core
             {
                 Settings.HasSyncStarted = true;
 
-                // Only here to simulate something bad happening :)
-                if (throwException)
-                    throw new Exception();
-
                 await Initializer();
 
-                await client.SyncContext.PushAsync();
+                if (CrossConnectivity.Current.ConnectionTypes.Any(ct => ct == ConnectionType.WiFi))
+                {
+                    await client.SyncContext.PushAsync();
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Not so fast!",
+                                                                    "Connection speed not fast enough to sync", "OK");
+
+                    return;
+                }
 
                 await table.PullAsync("todo-incremental", table.CreateQuery());
             }
@@ -70,8 +78,7 @@ namespace VSLiveToDo.Core
             }
             finally
             {
-                if (!throwException)
-                    Settings.HasSyncStarted = false;
+                Settings.HasSyncStarted = false;
             }
 
         }
@@ -163,15 +170,6 @@ namespace VSLiveToDo.Core
             var query = table.CreateQuery();
 
             await table.PurgeAsync("todo-incremental", query, new System.Threading.CancellationToken());
-        }
-
-        public async Task RegisterForPushNotifications()
-        {
-            //var platform = DependencyService.Get<IPlatformProvider>();
-
-            //await platform.RegisterForPushNotifications(client);
-
-            await Task.CompletedTask;
         }
     }
 }
