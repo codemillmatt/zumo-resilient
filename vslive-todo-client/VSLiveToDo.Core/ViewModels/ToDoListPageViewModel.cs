@@ -18,12 +18,6 @@ namespace VSLiveToDo.Core
 
             InitialRefreshList();
 
-            var service = new ZumoService();
-            Task.Run(async () =>
-            {
-                await service.RegisterForPushNotifications();
-            });
-
             MessagingCenter.Subscribe<PushToSync>(this, "ItemsChanged", async (obj) =>
             {
                 await ExecuteRefreshingCommand(true);
@@ -75,6 +69,10 @@ namespace VSLiveToDo.Core
         Command refreshCommand;
         public Command RefreshCommand => refreshCommand ?? (refreshCommand =
                                                             new Command(async () => await ExecuteRefreshingCommand(true)));
+
+        Command localRefreshCommand;
+        public Command LocalRefreshCommand => localRefreshCommand ?? (localRefreshCommand =
+                                                                      new Command(async () => await ExecuteRefreshingCommand(false)));
 
         Command addNewCommand;
         public Command AddNewCommand => addNewCommand ?? (addNewCommand =

@@ -26,26 +26,7 @@ namespace VSLiveToDo.Core
                     var zumoService = new ZumoService();
                     await zumoService.SyncOfflineCache();
 
-                    // Add the notification message and title to the message
-                    //var summary = $"Push notification received:" +
-                    //                    $"\n\tNotification title: {e.Title}" +
-                    //                    $"\n\tMessage: {e.Message}";
 
-                    //// If there is custom data associated with the notification,
-                    //// print the entries
-                    //if (e.CustomData != null)
-                    //{
-                    //    summary += "\n\tCustom data:\n";
-                    //    foreach (var key in e.CustomData.Keys)
-                    //    {
-                    //        summary += $"\t\t{key} : {e.CustomData[key]}\n";
-
-                    //        Analytics.TrackEvent("Push", new Dictionary<string, string> { { "push-key", $"{key}" } });
-                    //    }
-                    //}
-
-                    //// Send the notification summary to debug output
-                    //System.Diagnostics.Debug.WriteLine(summary);
                 };
             }
 
@@ -66,18 +47,6 @@ namespace VSLiveToDo.Core
             // Handle when your app sleeps
         }
 
-        //protected async override void OnResume()
-        //{
-        //    // Handle when your app resumes
-        //    //if (Plugin.HasSyncStarted)
-        //    //{
-        //    //    var zumoService = new ZumoService();
 
-        //    //    var hasPending = await zumoService.HasPendingOperations();
-
-        //    //    if (hasPending)
-        //    //        await zumoService.SyncOfflineCache();
-        //    //}
-        //}
     }
 }
